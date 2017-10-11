@@ -1,39 +1,36 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import './App.css'
 
-class Book extends Component {
-  static propTypes = {
-    title: PropTypes.string,
-    authors: PropTypes.array,
-    shelf: PropTypes.string
-  }
 
-  render () {
-    return (
-      
-      <li>
-        <div className="book">
-          <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")' }}></div>
-            <div className="book-shelf-changer">
-              <select>
-                <option value="none" disabled>Move to...</option>
-                <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
-                <option value="read">Read</option>
-                <option value="none">None</option>
-              </select>
-            </div>
-          </div>
-          <div className="book-title">To Kill a Mockingbird</div>
-          <div className="book-authors">Harper Lee</div>
+const Book = (props) => ( 
+       
+  <li>
+    <div className="book">
+      <div className="book-top">
+        <div className="book-cover" style={{ width: 128, height: 193,
+          backgroundImage: `url(${props.book.imageLinks.thumbnail})`, }} />
+        <div className="book-shelf-changer">
+          <select onChange={e => props.updateShelf(props.book, e.target.value)} defaultValue={props.book.shelf} >
+            <option value="none" disabled>Move to...</option>
+            <option value="currentlyReading">Currently Reading</option>
+            <option value="wantToRead">Want to Read</option>
+            <option value="read">Read</option>
+            <option value="none">None</option>
+          </select>
         </div>
-      </li>
-  
-    )    
-  }
+      </div>
+      <div className="book-title">{props.book.title}</div>
+      <div className="book-authors">{ props.book.authors.map(author =>
+          (<p key={author}> {author}
+          </p>),) } </div>
+    </div>
+  </li>
+)    
 
+Book.propTypes = {  
+  book: PropTypes.object.isRequired,
+  updateShelf: PropTypes.func.isRequired  
 }
 
 export default Book
