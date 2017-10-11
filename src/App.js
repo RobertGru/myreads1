@@ -4,26 +4,28 @@ import './App.css'
 import Shelf from './Shelf'
 
 class BooksApp extends Component {
-  state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false,
-    books: []    
+  constructor(props) {
+    super(props)
+    this.state = {
+      showSearchPage: false,
+      books: []
+    }
+    this.refreshBookDB = this.refreshBookDB.bind(this)
+    this.updateShelf = this.updateShelf.bind(this)
   }
 
   componentDidMount() {
+    this.refreshBookDB()
+  }
+  refreshBookDB() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books: books })
     })
   }
-  onDeleteBook(){
-  }
-  updateShelf = (optionChosen) => {
-    this.setState({shelf: optionChosen});
+  updateShelf(book, shelf) {
+    BooksAPI.update(book, shelf).then(() => {
+      this.refreshBookDB()
+    })
   }
   
   render() {

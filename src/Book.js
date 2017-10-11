@@ -12,7 +12,7 @@ const Book = (props) => (
           backgroundImage: `url(${props.book.imageLinks.thumbnail})`, }} />
         <div className="book-shelf-changer">
           <select onChange={e => props.updateShelf(props.book, e.target.value)} defaultValue={props.book.shelf} >
-            <option value="none" disabled>Move to...</option>
+            <option value="default" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
             <option value="read">Read</option>
