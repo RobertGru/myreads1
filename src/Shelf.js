@@ -15,7 +15,7 @@ const Shelf = (props) => (
 
               <ol className="books-grid">
                 {props.books
-                  .filter(book => book.shelf === `${props.query}`)
+                  .filter(book => book.shelf === `${props.shelf}`)
                   .map(book => <Book key={book.id} book={book} updateShelf={props.updateShelf} />)}
               </ol>
 
@@ -31,7 +31,7 @@ Shelf.propTypes = {
   books: PropTypes.array.isRequired,    
   updateShelf: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  query: PropTypes.string.isRequired
+  shelf: PropTypes.string.isRequired
 }
 
 export default Shelf
