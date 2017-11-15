@@ -7,13 +7,9 @@ import * as BooksAPI from "./BooksAPI";
 import "./App.css";
 
 class Search extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      results: [],
-      query: ''
-    }
-    this.searchQuery = this.searchQuery.bind(this)
+  state = {
+    results: [],
+    query: ''
   }
 
   searchQuery(query){
@@ -28,12 +24,11 @@ class Search extends React.Component {
 
   render() {
     const { results, query } = this.state
-    const { updateShelf, books, showSearchPage } = this.props
+    const { updateShelf, books } = this.props
     return (
       <div className="search-books">
         <div className="search-books-bar">
           <Link to="/" className="close-search">
-
           </Link>
           <div className="search-books-input-wrapper">
             <input
@@ -48,7 +43,7 @@ class Search extends React.Component {
           <div className="search-books-results">
             <ol className="books-grid">
               {
-                results.map(book => <Book key={book.id} book={book} onSearch={updateShelf}/>)
+                results.map(book => <Book key={book.id} book={book} />)
               }
             </ol>
           </div>

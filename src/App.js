@@ -9,13 +9,11 @@ class BooksApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showSearchPage: false,
       books: []
     }
     this.refreshBookDB = this.refreshBookDB.bind(this)
     this.updateShelf = this.updateShelf.bind(this)
   }
-
   componentDidMount() {
     this.refreshBookDB()
   }
@@ -31,10 +29,10 @@ class BooksApp extends Component {
   }
 
   render() {
-    const { books, showSearchPage } = this.state
+    const { books } = this.state
     return (
       <div className="app">
-        <Route exact path="/"  render= { () => (
+        <Route exact path="/"  render={ () => (
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -55,7 +53,7 @@ class BooksApp extends Component {
         )} />
         <Route
           path="/search"
-          render= { () => (  <Search onSearch={this.updateShelf} books={this.state.books} /> ) }
+          render={ () => (  <Search onSearch={this.updateShelf} books={this.state.books} /> ) }
         />
       </div>
     )
