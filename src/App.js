@@ -9,7 +9,8 @@ class BooksApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      books: []
+      books: [],
+      searchFlag: false
     }
     this.refreshBookDB = this.refreshBookDB.bind(this)
     this.updateShelf = this.updateShelf.bind(this)
@@ -29,7 +30,7 @@ class BooksApp extends Component {
   }
 
   render() {
-    const { books } = this.state
+    const { books, searchFlag } = this.state
     return (
       <div className="app">
         <Route exact path="/"  render={ () => (
@@ -39,11 +40,11 @@ class BooksApp extends Component {
             </div>
             <div className="list-books-content">
               <Shelf title="Currently reading" shelf="currentlyReading"
-                books={books} updateShelf={this.updateShelf} />
+                books={books} updateShelf={this.updateShelf} searchFlag={searchFlag}/>
               <Shelf title="Want to read" shelf="wantToRead"
-                books={books} updateShelf={this.updateShelf} />
+                books={books} updateShelf={this.updateShelf} searchFlag={searchFlag}/>
               <Shelf title="Read" shelf="read"
-                books={books} updateShelf={this.updateShelf} />
+                books={books} updateShelf={this.updateShelf} searchFlag={searchFlag}/>
             </div>
             <div className="open-search">
               <Link to="/search">
@@ -53,7 +54,7 @@ class BooksApp extends Component {
         )} />
         <Route
           path="/search"
-          render={ () => (  <Search onSearch={this.updateShelf} books={this.state.books} /> ) }
+          render={ () => (  <Search updateShelf={this.updateShelf} books={this.state.books} /> ) }
         />
       </div>
     )

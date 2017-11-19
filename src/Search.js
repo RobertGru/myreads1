@@ -1,10 +1,10 @@
 // @flow
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import Shelf from './Shelf'
 
-import Book from './Book'
-import * as BooksAPI from "./BooksAPI";
-import "./App.css";
+import * as BooksAPI from "./BooksAPI"
+import "./App.css"
 
 class Search extends React.Component {
   state = {
@@ -12,19 +12,43 @@ class Search extends React.Component {
     query: ''
   }
 
-  searchQuery(query){
-    console.log(query)
-    this.setState({ query })
-    if (query !== '') {
-      BooksAPI.search(query, 20).then((results) => {
-        this.setState({ results })
-    })}
+  updateResults(results){
+    const booksOnShelves = results.map(book => {
+      book.shelf = "none"
+      this.props.books.forEach(bookWithShelf => {
+        if (book.id === bookWithShelf.id) {
+          book.shelf = bookWithShelf.shelf
+        }
+      })
+      return book
+    })
+    this.setState({
+      results: booksOnShelves
+    })
   }
 
+  searchQuery(query){    
+    this.setState({ query })
+    if (query !== '') {
+      BooksAPI.search(query, 20).then(
+      resp => {
+        if (resp.error) {
+          this.setState({
+            results: []
+          })
+        } else {
+          this.updateResults(resp)
+        }
+      }, error => {
+        console.log("ERROR RESPONSE FROM API SERVER")
+      })
+    }
+  }
 
   render() {
     const { results, query } = this.state
-    const { updateShelf, books } = this.props
+    const { updateShelf } = this.props
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -34,18 +58,15 @@ class Search extends React.Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              value={this.query}
+              value={query}
               onChange={(event) => this.searchQuery(event.target.value)}
             />
           </div>
         </div>
         {results.length > 0 && (
           <div className="search-books-results">
-            <ol className="books-grid">
-              {
-                results.map(book => <Book key={book.id} book={book} />)
-              }
-            </ol>
+            <Shelf title="Books Found" shelf="none"
+              books={results} updateShelf={updateShelf} searchFlag={true}/>
           </div>
         )}
       </div>
