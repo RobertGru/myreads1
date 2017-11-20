@@ -1,5 +1,9 @@
 # My Version of MyReads project
 
+##TO RUN FINISHED PROJECT
+* install all project dependencies with `npm install`
+* start the development server with `npm start`
+
 Everything below cloned from Udacity starter.
 
 
